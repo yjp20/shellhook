@@ -9,6 +9,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"os"
 	"os/exec"
 )
 
@@ -84,6 +85,8 @@ func Run(configs []Config, port string, shell string) error {
 					continue
 				}
 				cmd := exec.Command("/bin/sh", "-c", event.Script)
+				cmd.Stdout = os.Stdout
+				cmd.Stderr = os.Stderr
 				err := cmd.Run()
 				if err != nil {
 					errors = append(errors, err.Error())
